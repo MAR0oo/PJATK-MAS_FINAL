@@ -1,0 +1,83 @@
+INSERT INTO koszulki (koszulka_id, nazwa, cena, kolor, marka, material, rozmiar, typ_koszulki)
+VALUES
+(1, 'Last XMAS', 129.99, 'Czerwony', 'Koszulka Męska', 'Bawełna', 42, 1), -- typ_koszulki: sportowe
+(2, 'EASY PEASY', 129.99, 'Czarny', 'Koszulka Męska', 'Bawełna', 40, 2), -- typ_koszulki: oversize
+(3, 'Oko', 129.99, 'Czarny', 'Koszulka Damska', 'Poliester', 38, 3); -- typ_koszulki: polo
+
+
+INSERT INTO koszulka (koszulka_id, nazwa, cena, kolor, marka, material, rozmiar, typ_koszulki)
+VALUES
+(1, 'Last XMAS', 129.99, 'Czerwony', 'Koszulka Męska', 'Bawełna', 42, 1), -- typ_koszulki: sportowe
+(2, 'EASY PEASY', 129.99, 'Czarny', 'Koszulka Męska', 'Bawełna', 40, 2), -- typ_koszulki: oversize
+(3, 'Oko', 129.99, 'Czarny', 'Koszulka Damska', 'Poliester', 38, 3); -- typ_koszulki: polo
+
+
+SELECT * FROM koszulka
+
+SELECT * FROM oversize
+
+INSERT INTO oversize (sezon, koszulka_id)
+VALUES
+('lato', 1)
+
+SELECT * FROM polo
+
+INSERT INTO polo (rodzaj_kolnierzyka, koszulka_id)
+VALUES
+('szeroki', 2)
+
+SELECT * FROM sportowe_oversize
+
+INSERT INTO oversize (sezon, koszulka_id)
+VALUES
+('zima', 3)
+
+INSERT INTO sportowe_oversize (typ_aktywnosci, koszulka_id)
+VALUES
+('sport', 3)
+
+
+SELECT * FROM dostawca
+
+INSERT INTO dostawca (nazwa, oplata)
+VALUES
+('DPD', 20);
+
+INSERT INTO dostawca (nazwa, oplata)
+VALUES
+('INPOST', 15);
+
+INSERT INTO dostawca (nazwa, oplata)
+VALUES
+('DHL', 25);
+
+SELECT * FROM zamowienie
+
+SELECT * FROM osoba
+SELECT * FROM administrator
+
+INSERT INTO osoba (adres_email, haslo, imie, login, nazwisko, numer_telefonu)
+VALUES
+('admin@admin.pl', 'admin', 'admin', 'admin', 'admin', '123');
+
+INSERT INTO administrator (doswiadczenie, osoba_id)
+VALUES
+(5, 2);
+
+-- Usuń wszystkie rekordy z tabeli
+DELETE FROM dostawa;
+DELETE FROM realizacja;
+DELETE FROM zamowienie;
+
+-- Usuń tabelę z bazy danych
+DROP TABLE zamowienie;
+
+SELECT * FROM zamowienie
+
+
+
+
+
+
+
+

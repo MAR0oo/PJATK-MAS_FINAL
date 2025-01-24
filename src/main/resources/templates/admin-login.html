@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Logowanie Administratora</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="d-flex flex-column min-vh-100">
+<!-- Pasek menu -->
+<nav class="navbar navbar-expand-lg" style="background-color: #394250;">
+  <div class="container-fluid">
+    <a class="navbar-brand text-white" href="/">SKLEP</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/add-review">Dodaj opinie o sklepie</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/shirts">Koszulki</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/cart">Koszyk</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/login">Zaloguj się</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Główna treść strony -->
+<div class="content-wrapper flex-grow-1 d-flex justify-content-center align-items-center">
+  <div class="login-container text-center">
+    <h1 class="mb-4 fw-bold">LOGOWANIE ADMINISTRATORA</h1>
+    <form th:action="@{/administrator}" method="post">
+      <div class="mb-3 text-start">
+        <label for="login" class="form-label">Login</label>
+        <input type="text" id="login" name="login" class="form-control" required>
+      </div>
+      <div class="mb-3 text-start">
+        <label for="password" class="form-label">Hasło</label>
+        <input type="password" id="password" name="password" class="form-control" required>
+      </div>
+      <button type="submit" class="btn btn-primary" style="background-color: #394250; border-color: #394250;">Zaloguj się</button>
+    </form>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white py-4 mt-auto">
+  <div class="container">
+    <div class="row">
+      <!-- Linki do regulaminu -->
+      <div class="col-md-4">
+        <h5>Regulaminy</h5>
+        <ul class="list-unstyled">
+          <li><a href="/regulamin-sklepu" class="text-white text-decoration-none">Regulamin sklepu</a></li>
+          <li><a href="/regulamin-zwrotow" class="text-white text-decoration-none">Regulamin zwrotów</a></li>
+        </ul>
+      </div>
+
+      <!-- Mapa -->
+      <div class="col-md-4 text-center">
+        <div class="map-image-container">
+          <img src="/images/mapa.png" alt="Mapa Koszykowa 86, Warszawa" class="map-image">
+        </div>
+      </div>
+
+      <!-- Kontakt -->
+      <div class="col-md-4 text-end">
+        <h5>Kontakt</h5>
+        <p>+48 123 456 789</p>
+        <p>Koszykowa 86, Warszawa</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

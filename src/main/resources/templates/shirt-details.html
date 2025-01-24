@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Szczegóły produktu</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body class="d-flex flex-column min-vh-100">
+<!-- Pasek menu -->
+<nav class="navbar navbar-expand-lg" style="background-color: #394250;">
+  <div class="container-fluid">
+    <a class="navbar-brand text-white" href="/">SKLEP</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/add-review">Dodaj opinie o sklepie</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/shirts">Koszulki</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link text-white" href="/cart">Koszyk</a>
+        </li>
+        <li class="nav-item" th:if="${loggedUser == null}">
+          <a class="nav-link text-white" href="/login">Zaloguj się</a>
+        </li>
+        <li class="nav-item" th:if="${loggedUser != null}">
+          <a class="nav-link text-white" href="/profil">Witaj, <span th:text="${loggedUser.imie}"></span></a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- Główna treść strony -->
+<div class="container my-5">
+  <div class="row">
+    <div class="col-md-6">
+      <img th:src="@{'/images/' + ${shirt.nazwa} + '.jpg'}" class="img-fluid" alt="Koszulka">
+    </div>
+    <div class="col-md-6">
+      <h2 th:text="${shirt.marka} + ' - ' + ${shirt.nazwa}" class="fw-bold"></h2>
+      <p th:text="'Cena: ' + ${shirt.cena} + ' zł'" class="fw-bold"></p>
+      <p><span class="fw-bold">Marka:</span> <span th:text="${shirt.marka}"></span></p>
+      <p><span class="fw-bold">Nazwa modelu:</span> <span th:text="${shirt.nazwa}"></span></p>
+      <p><span class="fw-bold">Kolor:</span> <span th:text="${shirt.kolor}"></span></p>
+      <p><span class="fw-bold">Materiał:</span> <span th:text="${shirt.material}"></span></p>
+      <p><span class="fw-bold">Rozmiar:</span> <span th:text="${shirt.rozmiar}"></span></p>
+      <div th:switch="${shirt.typKoszulki.name()}">
+        <p th:case="'SPORTOWE'">
+          <span class="fw-bold">Typ aktywności:</span> <span th:text="${shirt.typAktywnosci}"></span>
+        </p>
+        <p th:case="'OVERSIZE'">
+          <span class="fw-bold">Sezon:</span> <span th:text="${shirt.sezon}"></span>
+        </p>
+        <p th:case="'POLO'">
+          <span class="fw-bold">Rodzaj kołnierzyka:</span> <span th:text="${shirt.rodzajKolnierzyka}"></span>
+        </p>
+        <p th:case="'SPORTOWE_OVERSIZE'">
+          <span class="fw-bold">Typ aktywności:</span> <span th:text="${shirt.typAktywnosci}"></span><br>
+          <span class="fw-bold">Sezon:</span> <span th:text="${shirt.sezon}"></span>
+        </p>
+      </div>
+      <div>
+        <button
+                th:if="${loggedUser != null}"
+                class="btn btn-primary btn-lg btn-dark"
+                th:data-product-name="${shirt.nazwa}"
+                onclick="addToCart(this)">Dodaj do koszyka</button>
+        <button
+                th:if="${loggedUser == null}"
+                class="btn btn-secondary btn-lg btn-dark"
+                onclick="showLoginPopup()"
+                style="background-color: #6c757d; border-color: #6c757d;">Dodaj do koszyka</button>
+      </div>
+    </div>
+    <a href="/shirts" class="btn btn-dark mt-4 btn-lg d-grid gap-2 col-2 mx-auto">Powrót</a>
+  </div>
+</div>
+
+<!-- Popup -->
+<div id="popup" class="popup-container" style="display: none;">
+  <div class="popup-content text-center p-4">
+    <h4 id="popup-message"></h4>
+    <div id="popup-buttons" class="mt-3"></div>
+  </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-dark text-white py-4 mt-auto">
+  <div class="container">
+    <div class="row">
+      <!-- Linki do regulaminu -->
+      <div class="col-md-4">
+        <h5>Regulaminy</h5>
+        <ul class="list-unstyled">
+          <li><a href="/regulamin-sklepu" class="text-white text-decoration-none">Regulamin sklepu</a></li>
+          <li><a href="/regulamin-zwrotow" class="text-white text-decoration-none">Regulamin zwrotów</a></li>
+        </ul>
+      </div>
+
+      <!-- Mapa -->
+      <div class="col-md-4 text-center">
+        <div class="map-image-container">
+          <img src="/images/mapa.png" alt="Mapa Koszykowa 86, Warszawa" class="map-image">
+        </div>
+      </div>
+
+      <!-- Kontakt -->
+      <div class="col-md-4 text-end">
+        <h5>Kontakt</h5>
+        <p>+48 123 456 789</p>
+        <p>Koszykowa 86, Warszawa</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  function addToCart(button) {
+    const popup = document.getElementById('popup');
+    const message = document.getElementById('popup-message');
+    const buttons = document.getElementById('popup-buttons');
+
+    const productName = button.getAttribute('data-product-name');
+    console.log(`Dodawanie do koszyka: ${productName}`);
+
+    fetch('/shirts/add-to-cart', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded'
+      },
+      body: new URLSearchParams({ productName: productName })
+    })
+            .then(response => response.ok ? response.text() : Promise.reject(response.text()))
+            .then(data => {
+              console.log('Odpowiedź z serwera:', data);
+              message.innerText = "Dodano do koszyka!";
+              buttons.innerHTML = `
+        <button class="btn btn-primary me-2" onclick="closePopup()">Kontynuuj zakupy</button>
+        <a href="/cart" class="btn btn-secondary">Przejdź do koszyka</a>
+      `;
+            })
+            .catch(error => {
+              console.error('Błąd podczas dodawania do koszyka:', error);
+              message.innerText = "Wystąpił błąd: " + error.message;
+              buttons.innerHTML = `
+        <button class="btn btn-secondary" onclick="closePopup()">Zamknij</button>
+      `;
+            })
+            .finally(() => {
+              popup.style.display = 'block';
+            });
+  }
+
+  function showLoginPopup() {
+    const popup = document.getElementById('popup');
+    const message = document.getElementById('popup-message');
+    const buttons = document.getElementById('popup-buttons');
+
+    message.innerText = "Żeby dodać do koszyka musisz się zalogować!";
+    buttons.innerHTML = `<button class="btn btn-secondary" onclick="closePopup()">Zamknij okno</button>`;
+    popup.style.display = 'block';
+  }
+
+  function closePopup() {
+    const popup = document.getElementById('popup');
+    popup.style.display = 'none';
+  }
+</script>
+</body>
+</html>
