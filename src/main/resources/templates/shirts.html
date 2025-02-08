@@ -106,11 +106,9 @@
     const message = document.getElementById('popup-message');
     const buttons = document.getElementById('popup-buttons');
 
-    // Pobierz nazwę produktu z data-attribute
     const productName = button.getAttribute('data-product-name');
     console.log(`Dodawanie do koszyka: ${productName}`);
 
-    // Wysłanie żądania AJAX
     fetch('/shirts/add-to-cart', {
       method: 'POST',
       headers: {
